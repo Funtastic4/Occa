@@ -11,10 +11,7 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(cors());
 
-//Serve up static html
 app.use(Express.static(__dirname + '/../client'));
-
-
 
 app.get('/events', (req, res) => {
   var requestBody = Object.keys(req.body).length ? req.body : {
@@ -44,25 +41,14 @@ app.get('/events', (req, res) => {
           event.event.venueId = id;
           return db.addNewEvents(event);
         });
-      }))
-
+      }));
     })
     .then( events => {
       res.send(events)
     })
     .catch( events => {
-      //console.log('What am I catching?', events);
       res.send(events)
-    })
-  // ticketmaster.getEvents(requestBody)
-  // .then((processedData) => {
-  //   console.log(JSON.stringify(processedData));
-  //   res.status(200).send(processedData);
-  // })
-  // .catch((err) => {
-  //   console.error(err);
-  // });
-
+    });
 })
 
 app.post('/events', (req, res) => {
@@ -84,8 +70,6 @@ app.post('/events', (req, res) => {
      return Promise.all(apiEvents.map( event => {
        return db.searchOrCreateVenue(event.venue)
        .then( id => {
-         // console.log('IS THE ID COMING BACK?', id);
-         // console.log('After ID, we add ID to event:', event);
          event.event.venueId = id;
          return db.addNewEvents(event);
        });
@@ -93,11 +77,9 @@ app.post('/events', (req, res) => {
 
    })
    .then( events => {
-     //console.log('Returning this to client:', events);
      res.send(events)
    })
    .catch( events => {
-     //console.log('What am I catching?', events);
      res.send(events)
    })
 })

@@ -1,36 +1,21 @@
 var mysql = require('mysql');
 var Promise = require('bluebird');
 var JAWSDB_URL = require('../config.js').JAWSDB_PUCE_URL;
-// var { Client } = require('pg-promise');
-// var DATABASE_URL = require('../config.js').DATABASE_URL;
 
 // Local connection, development purposes only
-// var cbMysql = mysql.createConnection({
-//   host     : 'localhost',
-//   user     : 'root',
-//   password : '',
-//   database : 'Occa'
-// });
+var cbMysql = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : 'plantlife',
+  database : 'Occa'
+});
 
-//
-
-
-var cbMysql = mysql.createConnection(JAWSDB_URL);
-
+// var cbMysql = mysql.createConnection(JAWSDB_URL);
 
 cbMysql.connect();
 var connection = Promise.promisifyAll(cbMysql);
 
-// const connection = new Client({
-//   connectionString: DATABASE_URL,
-//   ssl: true
-// });
-//
-// connection.connect();
-
-
 const searchEvents = ({center_lat, center_lng, range}) => {
-  console.log('in search events')
   var today = new Date();
   var month = today.getMonth();
   var date = today.getDate();
@@ -73,7 +58,7 @@ const searchEvents = ({center_lat, center_lng, range}) => {
     `SELECT * FROM (${joinQuery})joined WHERE
     (lat >= ${latMin} AND lat <= ${latMax}) AND
     (lng >= ${lngMin} AND lng <= ${lngMax}) AND
-    (startDate >= ${todayDate})`)
+    (startDate >= DATE(${todayDate}))`)
   .then((response) => {
     return response.map(event => {
       return {
@@ -106,9 +91,10 @@ const searchEvents = ({center_lat, center_lng, range}) => {
 }
 
 const _addNewVenue = ({givenId, name, address, lat, lng, url, postalCode, image}) => {
+  var re = /\"/g;
   return connection.queryAsync(
     `INSERT INTO venues (givenId, name, address, lat, lng, url, postalCode, image)
-    VALUES ("${givenId}", "${name}", "${address}", ${lat}, ${lng}, "${url}", ${postalCode}, "${image}")`)
+    VALUES ("${givenId}", "${name.replace(re, '\\"')}", "${address}", ${lat}, ${lng}, "${url}", ${postalCode}, "${image}")`)
   .then((response) => {
     return givenId;
   })
@@ -132,11 +118,11 @@ const searchOrCreateVenue = (venueObj) => {
   })
 }
 
-
 const addNewEvents = (eventObj) => {
+  var re = /\"/g;
   return connection.queryAsync(`INSERT INTO events
     (name, startDate, startTime, image, category, url, venueId, givenId) VALUES
-    ("${eventObj.event.name}", "${eventObj.event.startDate}",
+    ("${eventObj.event.name.replace(re, '\\"')}", "${eventObj.event.startDate}",
     "${eventObj.event.startTime}", "${eventObj.event.image}",
     "${eventObj.event.category}", "${eventObj.event.url}",
     "${eventObj.event.venueId}", "${eventObj.event.givenId}")`)
@@ -167,12 +153,6 @@ const addNewEvents = (eventObj) => {
     console.error('Issue inserting new event:', error);
   });
 }
-
-
-// connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-//   if (error) throw error;
-//   console.log('The solution is: ', results[0].solution);
-// });
 
 module.exports = {
   searchEvents,
