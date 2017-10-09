@@ -65,14 +65,39 @@
   white-space: wrap;
 }
 
-#sidebar {
+.sidebar {
 	float: right;
 	display: inline;
 	width: 20%;
 	height: 80%;
-	background-color: #e2f1f8;
+	background-color: #FFFFFF;
 	overflow: scroll;
 	position: relative;
+	opacity: 1;
+	visibility: hidden;
+	transition: 0.75s;
+	margin-top: 10px;
+	margin-right: -400px;
+	border-radius: 25px;
+}
+
+.sidebar.show {
+	opacity: 1;
+	visibility: visible;
+	margin-right: 90px;
+}
+
+#blocker {
+	display: inline;
+	width: 6.75%;
+	height: 80%;
+	background-color: #e2f1f8;
+	position: absolute;
+	right: -30px;
+	opacity: 1;
+	visibility: visible;
+	margin-top: 10px;
+	margin-right: 0px;
 }
 
 #legendList {

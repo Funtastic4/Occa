@@ -44,10 +44,8 @@ class App extends React.Component {
         <Search />
         <Legend markers={window.eventTypes}/>
         <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
-        {this.state.display ?
-          <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)}/>
-          : null
-        }
+        <Sidebar display={this.state.display} events={this.state.events} hideEvents={this.hideEvents.bind(this)}/>
+        <div id="blocker"></div>
       </div>
     )
   }

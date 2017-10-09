@@ -12,7 +12,7 @@ window.eventTypes = {
 
 var actions = {
   get: function(google, map, cb) {
-    return $.ajax('https://occa.herokuapp.com/events')
+    return $.ajax('/events')
     .then(data => {
       return this._prepMarkers(data, cb, google, map)
       .then(markers => {
@@ -24,7 +24,7 @@ var actions = {
   post: (lat, lng, google, map, cb) => {
     return $.ajax({
       method: 'POST',
-      url: 'https://occa.herokuapp.com/events',
+      url: '/events',
       data: {
         data: JSON.stringify({
           lat: lat,
@@ -89,7 +89,7 @@ var actions = {
     markers.forEach(marker => marker.setMap(null))
   },
 
-  getCoordinate(address, postalCode) {
+  getCoordinate: (address, postalCode) => {
     return $.ajax({
       url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address+postalCode},+CA&key=${KEY.KEY}`,
       type: "GET",
@@ -99,7 +99,6 @@ var actions = {
     .catch(err => {
       console.error(err);
     });
-
   },
 
   formatEvents: (events, id) => {

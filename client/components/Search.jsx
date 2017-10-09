@@ -1,4 +1,4 @@
-const React= require('react');
+import React from 'react';
 
 class Search extends React.Component {
   constructor(props) {
@@ -14,4 +14,4 @@ class Search extends React.Component {
   }
 }
 
-module.exports = Search;
+export default Search;
