@@ -30,10 +30,10 @@
 	height: 80%;
 	width: 90%;
 	position: absolute;
-	left: 50px;
-	right: 50px;
+	left: 5%;
+	right: 5%;
 	border-radius: 20px;
-	
+
 }
 
 #app-container, #map , .container{
@@ -51,12 +51,6 @@
 #nav {
 	font-family: Pacifico;
 	background-color: #00bcd4;
-}r
-
-#app-container h1 {
-	font-size: 75px;
-	font-family: Pacifico;
-	color: #808e95
 }
 
 .content {
@@ -78,18 +72,18 @@
 	transition: 0.75s;
 	margin-top: 10px;
 	margin-right: -400px;
-	border-radius: 25px;
+	border-radius: 0 20px 20px 0;
 }
 
 .sidebar.show {
 	opacity: 1;
 	visibility: visible;
-	margin-right: 90px;
+	margin-right: 5%;
 }
 
 #blocker {
 	display: inline;
-	width: 6.75%;
+	width: 7%;
 	height: 80%;
 	background-color: #e2f1f8;
 	position: absolute;
@@ -118,10 +112,10 @@
 }
 
 #search-input {
-	border-radius:15px; 
-	-moz-border-radius:15px; 
+	border-radius:15px;
+	-moz-border-radius:15px;
 	-webkit-border-radius:15px;
-	text-align: center; 
+	text-align: center;
 }
 
 ::-webkit-input-placeholder {
@@ -133,11 +127,16 @@ input:focus::-webkit-input-placeholder {
 }
 
 #search-input:focus {
-   
+
     box-shadow: 0 0 0 2pt skyblue;
 
-   
+
     outline: none;
 
 }
 
+#app-container h1 {
+	font-size: 75px;
+	font-family: Pacifico;
+	color: #808e95
+}

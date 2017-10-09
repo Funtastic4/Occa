@@ -118,8 +118,6 @@ var actions = {
         var lng = event.latLng.lng();
         for (var venue of markers) {
           if (venue.position.lat() !== lat && venue.position.lng()) {
-            console.log('VENUE:', venue);
-            console.log('INFO:', venue.info);
             venue.info.close();
           }
         }
